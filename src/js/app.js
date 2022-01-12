@@ -52,7 +52,7 @@ App = {
   createInvoice: function(event) {
     event.preventDefault();
     
-    var name = parseInt(document.getElementById('name').value);
+    var name = document.getElementById('name').value;
     var amount = parseInt(document.getElementById('amount').value);
 
     var invoiceInstance;
