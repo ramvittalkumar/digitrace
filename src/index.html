@@ -1,48 +1,126 @@
-<html>
-  <head>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  </head>
-  <body>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <style>
+    html,body {
+    height: 100%;
+    }
+
+    .container {
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    bg-gradient-primary {
+    background-color:#4e73df;
+    background-image:linear-gradient(180deg,#4e73df 10%,#224abe 100%);
+    background-size:cover
+    }
+    </style>
+
+    <title>Digitrace</title>
+
+    <!-- Custom fonts for this template-->
+    <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
+
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+</head>
+
+<body id="container-fluid" class="bg-gradient-primary">
     <div class="container">
-      <img src="images\digitrace.jpeg" alt="digitrace logo" style="width:200px;height:200px;">
-      <div class="row">
-        <div class="col-sm-12">
-          <form id="create">
-            <h2>Create Invoice</h2>
-            <div class="form-group">
-              <label for="name">Name</label>
-              <input id="name" type="text" class="form-control"></input>
+        <img src="images/connect_wallet.png" />
+        <div class="row">
+            <div class="col-md-12">
+              <h1>DAPP Login Test</h1>
+    
+              <p>No wallet connected. Connect wallet to show accounts and their ETH balances.</p>
+    
+              <div class="alert alert-danger" id="alert-error-https" style="display: none">
+                You can run this example only over HTTPS connection.
+              </div>
+    
+              <div id="prepare">
+                <button class="btn btn-primary" id="btn-connect">
+                  Connect wallet
+                </button>
+              </div>
+    
+              <div id="connected" style="display: none">
+    
+                <button class="btn btn-primary" id="btn-disconnect">
+                  Disconnect wallet
+                </button>
+    
+                <hr>
+    
+                <div id="network">
+                  <p>
+                    <strong>Connected blockchain:</strong> <span id="network-name"></span>
+                  </p>
+    
+                  <p>
+                    <strong>Selected account:</strong> <span id="selected-account"></span>
+                  </p>
+    
+                </div>
+    
+                <hr>
+    
+                <h3>All account balances</h3>
+    
+                <table class="table table-listing">
+                  <thead>
+                    <th>Address</th>
+                    <th>ETH balance</th>
+                  </thead>
+    
+                  <tbody id="accounts">
+                  </tbody>
+                </table>
+    
+              </div>
+    
+              <br>
             </div>
-            <div class="form-group">
-              <label for="amount">Amount</label>
-              <input id="amount" type="text" class="form-control"></input>
-            </div>
-            <button type="submit" class="btn btn-primary btn-createInvoice">Submit</button>
-            <p id="create-result"></p>
-          </form>
-
-          <hr>
-
-          <form id="read">
-            <h2>Get Invoice</h2>
-            <div class="form-group">
-              <label for="invoiceId">Provide Invoice Id</label>
-              <input id="invoiceId" type="number" class="form-control"></input>
-            </div>
-            <button type="submit" class="btn btn-primary btn-getInvoice">Retrieve</button>
-            <p id="read-result"></p>
-          </form>
-
-          <hr>
-        </div>
-      </div>
+          </div>
     </div>
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <!-- Include all compiled plugins (below), or include individual files as needed -->
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/web3.min.js"></script>
-        <script src="js/truffle-contract.js"></script>
-        <script src="js/app.js"></script>
-  </body>
+  
+
+
+    <!-- Bootstrap core JavaScript-->
+    <script src="vendor/jquery/jquery.min.js"></script>
+    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="js/sb-admin-2.min.js"></script>
+
+    <script type="text/javascript" src="https://unpkg.com/web3@1.2.11/dist/web3.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/web3modal@1.9.0/dist/index.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/evm-chains@0.2.0/dist/umd/index.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/@walletconnect/web3-provider@1.2.1/dist/umd/index.min.js"></script>
+    <script type="text/javascript" src="https://unpkg.com/fortmatic@2.0.6/dist/fortmatic.js"></script>
+
+    <!-- This is our example code -->
+    <script type="text/javascript" src="js/example.js"></script>
+    <script type="text/javascript" src="js/connect-wallet.js"></script>
+
+</body>
+
 </html>
