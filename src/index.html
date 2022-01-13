@@ -49,9 +49,7 @@
     
               <p>No wallet connected. Connect wallet to show accounts and their ETH balances.</p>
     
-              <div class="alert alert-danger" id="alert-error-https" style="display: none">
-                You can run this example only over HTTPS connection.
-              </div>
+
     
               <div id="prepare">
                 <button class="btn btn-primary" id="btn-connect">
@@ -91,6 +89,15 @@
                   <tbody id="accounts">
                   </tbody>
                 </table>
+                 <!-- We use simple <template> templating for the example -->
+          <div id="templates" style="display: none">
+            <template id="template-balance">
+              <tr>
+                <th class="address"></th>
+                <td class="balance"></td>
+              </tr>
+            </template>
+          </div>
     
               </div>
     

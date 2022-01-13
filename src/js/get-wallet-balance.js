@@ -88,9 +88,12 @@ async function fetchAccountData() {
 
   // MetaMask does not give you all accounts, only the selected account
   console.log("Got accounts", accounts);
+  
   selectedAccount = accounts[0];
 
-  document.querySelector("#selected-account").textContent = selectedAccount;
+  console.log("selected accounts", selectedAccount);
+
+  // document.querySelector("#selected-account").textContent = selectedAccount;
 
   // Get a handl
   const template = document.querySelector("#template-balance");
@@ -119,9 +122,7 @@ async function fetchAccountData() {
   // until data for all accounts is loaded
   await Promise.all(rowResolvers);
 
-  // Display fully loaded UI for wallet data
-  document.querySelector("#prepare").style.display = "none";
-  document.querySelector("#connected").style.display = "block";
+
 }
 
 
@@ -213,6 +214,9 @@ async function onDisconnect() {
  */
 window.addEventListener('load', async () => {
   init();
-  document.querySelector("#btn-connect").addEventListener("click", onConnect);
-  document.querySelector("#btn-disconnect").addEventListener("click", onDisconnect);
+  console.log("loaded");
+  fetchAccountData();
+  
 });
+
+
