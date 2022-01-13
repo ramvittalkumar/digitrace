@@ -53,7 +53,7 @@ App = {
     event.preventDefault();
     
     var customer_name = document.getElementById('customerName').value;
-    var wallet_address = parseInt(document.getElementById('walletAddress').value);
+    var wallet_address = document.getElementById('walletAddress').value;
 
     var invoiceInstance;
 

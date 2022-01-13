@@ -2,7 +2,7 @@
   "name": "digitrace",
   "version": "1.0.0",
   "description": "",
-  "main": "truffle.js",
+  "main": "truffle-config.js",
   "directories": {
     "test": "test"
   },
@@ -14,5 +14,9 @@
   "license": "Optilogus",
   "devDependencies": {
     "lite-server": "^2.6.1"
+  },
+  "dependencies": {
+    "@truffle/contract": "^4.4.3",
+    "web3": "^1.6.1"
   }
 }
