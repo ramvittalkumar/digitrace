@@ -32,7 +32,7 @@ App = {
   },
 
   initContract: function() {
-    $.getJSON('ClientsContract.json', function(data) {
+    $.getJSON('InvoiceContract.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with @truffle/contract
       var InvoiceContract = data;
       App.contracts.Adoption = TruffleContract(InvoiceContract);
@@ -45,15 +45,20 @@ App = {
   },
 
   bindEvents: function() {
-    $(document).on('click', '.create-customer', App.createCustomer);
-    console.log("Create Customer clicked");
+    $(document).on('click', '.create-invoice', App.createInvoice);
+    console.log("Create Invoice event attached");
   },
 
-  createCustomer: function(event) {
+  createInvoice: function(event) {
     event.preventDefault();
+    console.log("Create Invoice button clicked");
+    var customer_wallet = document.getElementById('inputCustomer').value;
+    var invoice_amount = document.getElementById('inputAmount').value;
+    var invoice_comments = document.getElementById('inputComments').value;
+
+    var invoice_due_date_gregorian = document.getElementById('inputDueDate').value;
+    var invoice_due_date_unix = (new Date(invoice_due_date_gregorian).getTime())/1000;
     
-    var customer_name = document.getElementById('customerName').value;
-    var wallet_address = document.getElementById('walletAddress').value;
 
     var invoiceInstance;
 
@@ -68,8 +73,9 @@ App = {
         invoiceInstance = instance;
     
         // Execute createInvoice as a transaction by sending account
-        return invoiceInstance.createClient(customer_name, wallet_address, {from: account});
+        return invoiceInstance.createInvoice(customer_wallet, invoice_amount, invoice_due_date_unix, invoice_comments, {from: account});
       }).catch(function(err) {
+          console.log("Create Invoice error!!");
         console.log(err.message);
       });
     });
