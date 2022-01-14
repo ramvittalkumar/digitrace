@@ -2,7 +2,7 @@
 Simple, Easy, Fast application to make your invoice payments using Crypto.
 
 ## Description
-An invoice management system based on Solidity, truffle , web3.js and ganache.
+An invoice management system based on Solidity, truffle, web3.js and ganache.
 
 ## Dependencies
 * Node.js
