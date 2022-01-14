@@ -46,7 +46,8 @@ App = {
 
   bindEvents: function() {
     $(document).on('click', '.create-invoice', App.createInvoice);
-    console.log("Create Invoice event attached");
+    $(document).on('click', '.pay-invoice', App.payInvoice);
+    console.log("Inside invoices.js attached");
   },
 
   createInvoice: function(event) {
@@ -59,7 +60,6 @@ App = {
     var invoice_due_date_gregorian = document.getElementById('inputDueDate').value;
     var invoice_due_date_unix = (new Date(invoice_due_date_gregorian).getTime())/1000;
     
-
     var invoiceInstance;
 
     web3.eth.getAccounts(function(error, accounts) {
@@ -71,7 +71,7 @@ App = {
     
       App.contracts.Adoption.deployed().then(function(instance) {
         invoiceInstance = instance;
-    
+
         // Execute createInvoice as a transaction by sending account
         return invoiceInstance.createInvoice(customer_wallet, invoice_amount, invoice_due_date_unix, invoice_comments, {from: account});
       }).catch(function(err) {
@@ -82,7 +82,53 @@ App = {
     
   },
 
-  
+  payInvoice: function(event) {
+    event.preventDefault();
+    console.log("Pay Invoice button clicked");
+    var customer_wallet = document.getElementById('inputCustomer').value;
+    var invoice_amount = document.getElementById('inputAmount').value;
+    const weiValue = web3.toWei(invoice_amount, 'ether');
+    console.log(weiValue);
+    var invoice_comments = document.getElementById('inputComments').value;
+
+    var invoice_due_date_gregorian = document.getElementById('inputDueDate').value;
+    //var invoice_due_date_unix = (new Date(invoice_due_date_gregorian).getTime())/1000;
+    
+    var invoiceInstance;
+
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+    
+      var account = accounts[0];
+    
+      App.contracts.Adoption.deployed().then(function(instance) {
+        invoiceInstance = instance;
+
+      //Initiate sendTransaction
+      var tx = web3.eth.sendTransaction({ 
+        from: account,
+        gasPrice: "20000000000",
+        gas: "21000",
+        to: customer_wallet, 
+        value: weiValue,
+        data: ""
+       }, function(err, transactionHash) {
+        if (!err)
+          console.log(transactionHash); 
+      })
+      console.log(tx);
+        // TODO Update invoice status as Completed
+
+
+      }).catch(function(err) {
+          console.log("Pay Invoice error!!");
+        console.log(err.message);
+      });
+    });
+    
+  }
 };
 
 $(function() {
