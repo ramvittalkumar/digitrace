@@ -39,6 +39,16 @@ App = {
     
       // Set the provider for our contract
       App.contracts.Adoption.setProvider(App.web3Provider);
+      
+      web3.eth.getAccounts(function(error, accounts) {
+        if (error) {
+          console.log(error);
+        }
+      
+        var account = accounts[0];
+        document.getElementById('walletAddress').innerHTML = account;
+  
+      });
     
     });
     return App.bindEvents();

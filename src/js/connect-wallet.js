@@ -7,7 +7,6 @@
  // Unpkg imports
 const Web3Modal = window.Web3Modal.default;
 const WalletConnectProvider = window.WalletConnectProvider.default;
-const Fortmatic = window.Fortmatic;
 const evmChains = window.evmChains;
 
 // Web3modal instance
@@ -28,12 +27,7 @@ function init() {
 
   console.log("Initializing example");
   console.log("WalletConnectProvider is", WalletConnectProvider);
-  console.log("Fortmatic is", Fortmatic);
   console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
-
-  if(window.ethereum) {
-    await ethereum.enable();
-  } 
 
   // Check that the web page is run in a secure context,
   // as otherwise MetaMask won't be available
@@ -51,13 +45,6 @@ function init() {
       }
     },
 
-    fortmatic: {
-      package: Fortmatic,
-      options: {
-        // Mikko's TESTNET api key
-        key: "pk_test_391E26A3B43A3350"
-      }
-    }
   };
 
   web3Modal = new Web3Modal({

@@ -39,6 +39,16 @@ App = {
     
       // Set the provider for our contract
       App.contracts.Adoption.setProvider(App.web3Provider);
+
+      web3.eth.getAccounts(function(error, accounts) {
+        if (error) {
+          console.log(error);
+        }
+      
+        var account = accounts[0];
+        document.getElementById('walletAddress').innerHTML = account;
+  
+      });
     
     });
     return App.bindEvents();
@@ -53,7 +63,7 @@ App = {
     event.preventDefault();
     
     var customer_name = document.getElementById('customerName').value;
-    var wallet_address = document.getElementById('walletAddress').value;
+    var wallet_address = document.getElementById('walletAddressProfile').value;
 
     var invoiceInstance;
 
@@ -63,10 +73,11 @@ App = {
       }
     
       var account = accounts[0];
-    
+
       App.contracts.Adoption.deployed().then(function(instance) {
         invoiceInstance = instance;
     
+      console.log("wallet_address"+wallet_address);
         // Execute createInvoice as a transaction by sending account
         return invoiceInstance.createClient(customer_name, wallet_address, {from: account});
       }).catch(function(err) {
