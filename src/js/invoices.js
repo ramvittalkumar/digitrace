@@ -109,7 +109,17 @@ App = {
 
     })
     .catch(_e => {
-      document.getElementById('inputInvoiceId').innerHTML = _e;
+      document.getElementById('inputInvoiceId').value = "";
+      document.getElementById('inputCustomer').value =  "";
+
+      const weiValue = `${result[2]}`; //web3.fromWei(`${result[2]}`, 'ether');
+      document.getElementById('inputAmount').value =  "";
+
+//      document.getElementById('inputDueDate').value =  `${result[3]}`;
+      document.getElementById('inputComments').value = "";
+
+      document.getElementById('inputPayFrom').value =  "";
+      document.getElementById('inputPayTo').value = "";
     }); 
   },
 
@@ -153,16 +163,17 @@ App = {
        }, function(err, transactionHash) {
         if (!err) 
         console.log("Txn Hash"+transactionHash);
-        document.getElementById('paymentStatus').innerHTML =  'Payment Successful!';
-
-        //TODO updateInvoice
-        //instance
-        // Execute createInvoice as a transaction by sending account
-        console.log("invoice_id:"+invoice_id)
-        console.log("fromaccount:"+account)
-        return invoiceInstance.updateInvoice(invoice_id,"Completed", {from: account});
       })
-
+      App.contracts.Adoption.deployed().then(function(instance) {
+        getInvoiceInstance = instance;
+        return getInvoiceInstance.updateInvoice(invoice_id, "Completed", {from: account});
+      }).then(result => {
+        document.getElementById('paymentStatus').innerHTML =  'Payment Successful!';
+  
+      })
+      .catch(_e => {
+        document.getElementById('paymentStatus').innerHTML = _e;
+      }); 
       }).catch(function(err) {
           console.log("Pay Invoice error!!");
         console.log(err.message);
