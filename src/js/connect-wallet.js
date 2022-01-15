@@ -31,6 +31,10 @@ function init() {
   console.log("Fortmatic is", Fortmatic);
   console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
 
+  if(window.ethereum) {
+    await ethereum.enable();
+  } 
+
   // Check that the web page is run in a secure context,
   // as otherwise MetaMask won't be available
 
@@ -84,7 +88,10 @@ async function fetchAccountData() {
   //document.querySelector("#network-name").textContent = chainData.name;
 
   // Get list of accounts of the connected wallet
-  const accounts = await web3.eth.getAccounts();
+  //const accounts = await web3.eth.getAccounts();
+
+  await window.ethereum.enable();
+  const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
   // MetaMask does not give you all accounts, only the selected account
   console.log("Got accounts", accounts);

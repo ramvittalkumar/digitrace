@@ -83,16 +83,14 @@ async function fetchAccountData() {
   //const chainData = evmChains.getChain(chainId);
   //document.querySelector("#network-name").textContent = chainData.name;
 
-  // Get list of accounts of the connected wallet
-  const accounts = await web3.eth.getAccounts();
+
+  await window.ethereum.enable();
+  const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
 
   // MetaMask does not give you all accounts, only the selected account
   console.log("Got accounts", accounts);
-  
   selectedAccount = accounts[0];
-
   console.log("selected accounts", selectedAccount);
-
   // document.querySelector("#selected-account").textContent = selectedAccount;
 
   // Get a handl
@@ -216,6 +214,7 @@ window.addEventListener('load', async () => {
   init();
   console.log("loaded");
   fetchAccountData();
+  //document.querySelector("#btn-disconnect").addEventListener("click", onDisconnect);
   
 });
 

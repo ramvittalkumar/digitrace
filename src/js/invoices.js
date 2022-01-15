@@ -45,6 +45,8 @@ App = {
   },
 
   bindEvents: function() {
+    console.log("event attachment entry");
+    $(document).on('click', '.get-next-unpaid-invoice', App.getNextUnpaidInvoice);
     $(document).on('click', '.create-invoice', App.createInvoice);
     $(document).on('click', '.pay-invoice', App.payInvoice);
     console.log("Inside invoices.js attached");
@@ -74,6 +76,7 @@ App = {
 
         // Execute createInvoice as a transaction by sending account
         return invoiceInstance.createInvoice(customer_wallet, invoice_amount, invoice_due_date_unix, invoice_comments, {from: account});
+        
       }).catch(function(err) {
           console.log("Create Invoice error!!");
         console.log(err.message);
@@ -82,16 +85,47 @@ App = {
     
   },
 
+  getNextUnpaidInvoice: function(event) {
+    event.preventDefault();
+    var getInvoiceInstance;
+    console.log("getting Unpaid Invoices");
+    //const invoiceId = parseInt(document.getElementById('invoiceId').value);
+
+    App.contracts.Adoption.deployed().then(function(instance) {
+      getInvoiceInstance = instance;
+      return getInvoiceInstance.getNextUnpaidInvoice();
+    }).then(result => {
+      document.getElementById('inputInvoiceId').value =  `${result[0]}`;
+      document.getElementById('inputCustomer').value =  `${result[1]}`;
+
+      const weiValue = `${result[2]}`; //web3.fromWei(`${result[2]}`, 'ether');
+      document.getElementById('inputAmount').value =  weiValue;
+
+//      document.getElementById('inputDueDate').value =  `${result[3]}`;
+      document.getElementById('inputComments').value =  `${result[4]}`;
+
+      document.getElementById('inputPayFrom').value =  `${result[7]}`;
+      document.getElementById('inputPayTo').value =  `${result[6]}`;
+
+    })
+    .catch(_e => {
+      document.getElementById('inputInvoiceId').innerHTML = _e;
+    }); 
+  },
+
   payInvoice: function(event) {
     event.preventDefault();
     console.log("Pay Invoice button clicked");
     var customer_wallet = document.getElementById('inputCustomer').value;
     var invoice_amount = document.getElementById('inputAmount').value;
+    var invoice_payment_To = document.getElementById('inputPayTo').value;
+    var invoice_id = document.getElementById('inputInvoiceId').value;
+
     const weiValue = web3.toWei(invoice_amount, 'ether');
     console.log(weiValue);
-    var invoice_comments = document.getElementById('inputComments').value;
 
-    var invoice_due_date_gregorian = document.getElementById('inputDueDate').value;
+    var invoice_comments = document.getElementById('inputComments').value;
+    //var invoice_due_date_gregorian = document.getElementById('inputDueDate').value;
     //var invoice_due_date_unix = (new Date(invoice_due_date_gregorian).getTime())/1000;
     
     var invoiceInstance;
@@ -102,6 +136,8 @@ App = {
       }
     
       var account = accounts[0];
+
+      console.log("from:"+customer_wallet+" To:"+account);
     
       App.contracts.Adoption.deployed().then(function(instance) {
         invoiceInstance = instance;
@@ -111,21 +147,27 @@ App = {
         from: account,
         gasPrice: "20000000000",
         gas: "21000",
-        to: customer_wallet, 
+        to: invoice_payment_To, 
         value: weiValue,
         data: ""
        }, function(err, transactionHash) {
-        if (!err)
-          console.log(transactionHash); 
-      })
-      console.log(tx);
-        // TODO Update invoice status as Completed
+        if (!err) 
+        console.log("Txn Hash"+transactionHash);
+        document.getElementById('paymentStatus').innerHTML =  'Payment Successful!';
 
+        //TODO updateInvoice
+        //instance
+        // Execute createInvoice as a transaction by sending account
+        console.log("invoice_id:"+invoice_id)
+        console.log("fromaccount:"+account)
+        return invoiceInstance.updateInvoice(invoice_id,"Completed", {from: account});
+      })
 
       }).catch(function(err) {
           console.log("Pay Invoice error!!");
         console.log(err.message);
       });
+
     });
     
   }
