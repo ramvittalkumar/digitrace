@@ -89,6 +89,8 @@ App = {
     event.preventDefault();
     var getInvoiceInstance;
     console.log("getting Unpaid Invoices");
+    
+    document.getElementById('paymentStatus').innerHTML =  '';
     //const invoiceId = parseInt(document.getElementById('invoiceId').value);
 
     App.contracts.Adoption.deployed().then(function(instance) {
@@ -112,7 +114,7 @@ App = {
       document.getElementById('inputInvoiceId').value = "";
       document.getElementById('inputCustomer').value =  "";
 
-      const weiValue = `${result[2]}`; //web3.fromWei(`${result[2]}`, 'ether');
+      //const weiValue = `${result[2]}`; //web3.fromWei(`${result[2]}`, 'ether');
       document.getElementById('inputAmount').value =  "";
 
 //      document.getElementById('inputDueDate').value =  `${result[3]}`;
